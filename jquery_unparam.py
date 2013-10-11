@@ -27,9 +27,26 @@ def parse_key_pair(keyval):
 
 def merge_two_structs(s1, s2):
     if isinstance(s1, list) and \
-       isinstance(s2, list):
-        return s1 + s2
-    
+        isinstance(s2, list):
+        retval = []
+        structs = []
+        for v1 in s1:
+            if isinstance(v1, list) or isinstance(v1, dict):
+                structs.append(v1)
+            else:
+                retval.append(v1)
+        for v2 in s2:
+            if isinstance(v1, list) or isinstance(v1, dict):
+                structs.append(v2)
+            else:
+                retval.append(v2)
+        if structs:
+            cstruct = structs.pop()
+            for struct in structs[:]:
+                cstruct = merge_two_structs(cstruct, struct)
+            retval.append(cstruct)
+        return retval
+
     if isinstance(s1, dict) and \
        isinstance(s2, dict):
         
