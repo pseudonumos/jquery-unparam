@@ -18,7 +18,8 @@ def parse_key_pair(keyval):
     if key[-len(groups_joined):] == groups_joined:
         key = key[:-len(groups_joined)]
         for group in reversed(groups):
-            if group == '[]':
+            # need to parse [] or [0] elements
+            if group == '[]' or ''.join(i for i in group if not i.isdigit()) == '[]':
                 val = [val]
             else:
                 val = {group[1:-1]: val}
